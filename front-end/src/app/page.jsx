@@ -21,8 +21,6 @@ export default function Home() {
 
     const response = await fetch(BACKEND_ENDPOINT, options);
     const data = await response.json();
-
-    console.log(data);
   };
   return (
     <div>
