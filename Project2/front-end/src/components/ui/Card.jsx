@@ -1,6 +1,7 @@
 import { DeleteButton, EditModal } from ".";
 
-export const Card = ({ name, category, price }) => {
+export const Card = ({ product }) => {
+  const { productName, category, price } = product;
   return (
     <div class="card bg-base-100 w-96 shadow-xl">
       <figure>
@@ -10,11 +11,14 @@ export const Card = ({ name, category, price }) => {
         />
       </figure>
       <div class="card-body">
-        <h2 class="card-title">Shoes!</h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
+        <h2 class="card-title">{productName}</h2>
+        <div className="flex justify-between">
+          <p>{category}</p>
+          <p>{price}$</p>
+        </div>
       </div>
       <div className="justify-end p-4 pt-0 card-actions">
-        <EditModal />
+        <EditModal product={product} />
         <DeleteButton />
       </div>
     </div>

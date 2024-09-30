@@ -1,29 +1,46 @@
 "use client";
 
 import { Card, CreateModal, EditModal } from "@/components/ui";
+import { BACKEND_ENDPOINT } from "@/constants/constant";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  // const BACKEND_ENDPOINT = "http://localhost:8888/sign-in";
+  const [products, setProducts] = useState([]);
 
-  // const handleOnSubmit = async (event) => {
-  //   event.preventDefault();
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(`${BACKEND_ENDPOINT}/products`);
+      const responseData = await response.json();
+      setProducts(responseData?.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  //   const userData = {
-  //     name: event.target.name.value,
-  //     password: event.target.password.value,
-  //   };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
-  //   const options = {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(userData),
-  //   };
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
 
-  //   const response = await fetch(BACKEND_ENDPOINT, options);
-  //   const data = await response.json();
-  // };
+    const userData = {
+      name: event.target.name.value,
+      password: event.target.password.value,
+    };
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    };
+
+    const response = await fetch(BACKEND_ENDPOINT, options);
+    const data = await response.json();
+  };
+
   return (
     <div className="flex justify-center w-full p-6">
       <div className="max-w-[1200px]">
@@ -31,16 +48,9 @@ export default function Home() {
           <CreateModal />
         </div>
         <div className="flex flex-wrap justify-between gap-5 mt-6">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          {products?.map((product) => {
+            return <Card key={product?.id} product={product} />;
+          })}
         </div>
       </div>
     </div>
