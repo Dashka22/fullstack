@@ -83,6 +83,8 @@ app.delete("/product", (request, response) => {
 
     const filteredData = dbData.filter((data) => data?.id !== id);
 
+    const deletedProduct = dbData.find((data) => data?.id === id);
+
     if (filteredData.length === dbData.length) {
       response.json({
         success: false,
@@ -102,7 +104,7 @@ app.delete("/product", (request, response) => {
         } else {
           response.json({
             success: true,
-            products: filteredData,
+            product: deletedProduct,
           });
         }
       }

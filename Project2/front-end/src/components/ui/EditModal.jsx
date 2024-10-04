@@ -1,40 +1,17 @@
-import { BACKEND_ENDPOINT } from "@/constants/constant";
-import { useState } from "react";
-
-export const EditModal = ({ product: productProps }) => {
-  const [product, setProduct] = useState(productProps);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const options = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(product),
-    };
-    await fetch(`${BACKEND_ENDPOINT}/product`, options);
-    document.getElementById("my_modal_2").close();
+export const EditModal = ({
+  selectedProduct,
+  handleSubmit,
+  handleInputChange,
+  setSelectedProduct,
+  product,
+}) => {
+  const handleModalClick = () => {
+    document.getElementById("my_modal_2").showModal();
+    setSelectedProduct(product);
   };
-
-  const handleInputChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    setProduct((prevProduct) => {
-      return {
-        ...prevProduct,
-        [name]: value,
-      };
-    });
-  };
-
   return (
     <>
-      <button
-        className="btn"
-        onClick={() => document.getElementById("my_modal_2").showModal()}
-      >
+      <button className="btn" onClick={handleModalClick}>
         Edit
       </button>
       <dialog id="my_modal_2" className="modal">
@@ -47,7 +24,7 @@ export const EditModal = ({ product: productProps }) => {
               type="text"
               placeholder="Type here"
               className="w-full input input-bordered"
-              value={product?.productName}
+              value={selectedProduct?.productName}
             />
             <input
               name="category"
@@ -55,7 +32,7 @@ export const EditModal = ({ product: productProps }) => {
               type="text"
               placeholder="Type here"
               className="w-full input input-bordered"
-              value={product?.category}
+              value={selectedProduct?.category}
             />
             <input
               name="price"
@@ -63,7 +40,7 @@ export const EditModal = ({ product: productProps }) => {
               type="text"
               placeholder="Type here"
               className="w-full input input-bordered"
-              value={product?.price}
+              value={selectedProduct?.price}
             />
           </div>
 

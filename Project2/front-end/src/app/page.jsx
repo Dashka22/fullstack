@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState({});
 
   const fetchProducts = async () => {
     try {
@@ -21,35 +22,22 @@ export default function Home() {
     fetchProducts();
   }, []);
 
-  const handleOnSubmit = async (event) => {
-    event.preventDefault();
-
-    const userData = {
-      name: event.target.name.value,
-      password: event.target.password.value,
-    };
-
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    };
-
-    const response = await fetch(BACKEND_ENDPOINT, options);
-    const data = await response.json();
-  };
-
   return (
     <div className="flex justify-center w-full p-6">
       <div className="max-w-[1200px]">
         <div className="flex justify-end ">
-          <CreateModal />
+          <CreateModal setProducts={setProducts} />
         </div>
-        <div className="flex flex-wrap justify-between gap-5 mt-6">
+        <div className="grid grid-cols-3 gap-6 mt-6">
           {products?.map((product) => {
-            return <Card key={product?.id} product={product} />;
+            return (
+              <Card
+                product={product}
+                setProducts={setProducts}
+                setSelectedProduct={setSelectedProduct}
+                selectedProduct={selectedProduct}
+              />
+            );
           })}
         </div>
       </div>
