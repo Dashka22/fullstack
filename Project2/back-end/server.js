@@ -2,6 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import fs from "fs";
+import { neon } from "@neondatabase/serverless";
+import dotenv from "dotenv";
+dotenv.config();
 
 const port = 8888;
 const app = express();
@@ -9,8 +12,15 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get("/", (request, response) => {
-  response.send("Hello GET huselt irlee");
+const sql = neon(`${process.env.DATABASE_URL}`);
+
+app.get("/", async (request, response) => {
+  try {
+    const sqlResponse = await sql`SELECT * FROM students;`;
+    response.json({ data: sqlResponse, success: true });
+  } catch (error) {
+    response.json({ error: error, success: false });
+  }
 });
 
 app.get("/products", (request, response) => {

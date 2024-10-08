@@ -1,1 +1,1 @@
-export const BACKEND_ENDPOINT = "http://localhost:8888";
+export const BACKEND_ENDPOINT = "https://tusul-2-backend.onrender.com";

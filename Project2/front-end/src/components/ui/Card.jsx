@@ -15,6 +15,7 @@ export const Card = ({
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify({ id: id }),
       };
@@ -37,6 +38,7 @@ export const Card = ({
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify(selectedProduct),
       };
